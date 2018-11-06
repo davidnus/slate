@@ -5,6 +5,7 @@ import React from 'react'
 import initialValue from './value.json'
 import { isKeyHotkey } from 'is-hotkey'
 import { Button, Icon, Toolbar } from '../components'
+import Wave from '../../../wave-plugin/src/index'
 
 /**
  * Define the default node type.
@@ -24,6 +25,11 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
+const plugins = [
+  Wave({})
+];
+console.log(plugins);
+
 
 /**
  * The rich text example.
@@ -106,6 +112,7 @@ class RichTextExample extends React.Component {
           onKeyDown={this.onKeyDown}
           renderNode={this.renderNode}
           renderMark={this.renderMark}
+          plugins={plugins}
         />
       </div>
     )
