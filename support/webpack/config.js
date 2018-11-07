@@ -36,6 +36,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
+            presets: ['react', 'stage-2'],
             forceEnv: 'webpack',
           },
         },

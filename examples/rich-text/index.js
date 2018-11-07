@@ -224,7 +224,8 @@ class RichTextExample extends React.Component {
    * @param {Editor} editor
    */
 
-  onChange = ({ value }) => {
+  onChange = ({ value, operations }) => {
+    console.log('onChange Slate-react', operations.toJS());
     this.setState({ value })
   }
 
