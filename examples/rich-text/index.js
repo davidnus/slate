@@ -21,13 +21,30 @@ const DEFAULT_NODE = 'paragraph'
  * @type {Function}
  */
 
+const config = {
+  domain: 'localhost:8081',
+  apiKey: 'f69cbcf8-0a06-4852-acbd-522696ebf66e',
+  sessionId: 'abc',
+  user: {
+    name: 'david',
+    email: 'davidqsun@gamil.com'
+  },
+}
+
 const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
+const {api, plugin, CaretLayer} = Wave(config);
+
 const plugins = [
-  Wave({})
+  plugin
 ];
+
+api.on('uc', data => {
+  console.log('Got a session message', data);
+});
+
 console.log(plugins);
 
 
@@ -81,6 +98,9 @@ class RichTextExample extends React.Component {
   ref = editor => {
     this.editor = editor
   }
+
+
+
 
   /**
    * Render.

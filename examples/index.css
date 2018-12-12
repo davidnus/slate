@@ -73,3 +73,53 @@ input:focus {
 [data-slate-editor] > * + * {
   margin-top: 1em;
 }
+
+.remote_caret: {
+  position: relative;
+  background:transparent,
+}
+
+.remote_caret_left:before{
+  position: absolute;
+  z-index:5;
+  content: ' ';
+  width: 5px;
+  height:5px; 
+  border-left-width:5px;
+  border-left-style: solid;
+  left: -2px;
+  top:0px;
+  border-color: inherit; 
+}
+
+.remote_caret:before{
+  position: absolute;
+  z-index:5;
+  content: ' ';
+  width: 5px;
+  height:5px; 
+  right: -5px;
+  border-right-width:5px;
+  border-right-style: solid;
+  top:0px;
+  border-color: inherit; 
+}
+/*
+.remote_caret:hover:before{
+  position: absolute;
+  content: attr(data-name);
+  z-index:10;
+  border-radius: 2px;
+  padding: 2px 8px;
+  left: -2px;
+  top: -18px;
+  color: white;
+  font-size: 10px;
+  background-color: inherit;
+  height: 16px;
+  width:30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+*/
