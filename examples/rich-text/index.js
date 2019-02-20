@@ -1,3 +1,6 @@
+//import { Editor } from '../../packages/slate-react/src/'
+//import { Value } from '../../packages/slate/src/'
+
 import { Editor } from 'slate-react'
 import { Value } from 'slate'
 
@@ -22,8 +25,7 @@ const DEFAULT_NODE = 'paragraph'
  */
 
 const config = {
-  domain: 'localhost:8081',
-  apiKey: 'f69cbcf8-0a06-4852-acbd-522696ebf66e',
+  apiKey: '9e944678-074f-4469-958f-f18255442a9c',
   sessionId: 'abc',
   user: {
     name: 'david',
@@ -35,15 +37,12 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
-const {api, plugin, CaretLayer} = Wave(config);
+const {api, plugin, Session} = Wave(config);
 
 const plugins = [
   plugin
 ];
 
-api.on('uc', data => {
-  console.log('Got a session message', data);
-});
 
 console.log(plugins);
 
@@ -100,6 +99,11 @@ class RichTextExample extends React.Component {
   }
 
 
+    /*
+  api.on('uc', data => {
+    console.log('Got a session message', data);
+  }
+  */
 
 
   /**
@@ -111,6 +115,7 @@ class RichTextExample extends React.Component {
   render() {
     return (
       <div>
+        <Session wave={api} />
         <Toolbar>
           {this.renderMarkButton('bold', 'format_bold')}
           {this.renderMarkButton('italic', 'format_italic')}
