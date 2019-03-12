@@ -264,7 +264,7 @@ export default class App extends React.Component {
           <Route key={path} path={path}>
             <div>
               <ExampleContent>
-                <Component />
+                <Component {...this.props}/>
               </ExampleContent>
             </div>
           </Route>

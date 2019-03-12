@@ -9,7 +9,17 @@ import initialValue from './value.json'
 import { isKeyHotkey } from 'is-hotkey'
 import { Button, Icon, Toolbar } from '../components'
 import Wave from '../../../wave-plugin/src/index'
+import CheckList from './check-lists'
+import CodeHighlight from './code-highlight'
+import Emojis from './emojis'
+import HoverMenu from './hovering-menu'
+import Embeds from './embeds'
+import Images from './images'
+import Session from '../../../sdk/src/components/Session'
 
+
+const emojis = Emojis();
+const {ImagesPlugin, ImagesToolbar}= Images();
 /**
  * Define the default node type.
  *
@@ -24,6 +34,7 @@ const DEFAULT_NODE = 'paragraph'
  * @type {Function}
  */
 
+  /*
 const config = {
   apiKey: '9e944678-074f-4469-958f-f18255442a9c',
   sessionId: 'abc',
@@ -32,19 +43,14 @@ const config = {
     email: 'davidqsun@gamil.com'
   },
 }
+*/
 
 const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
-const {api, plugin, Session} = Wave(config);
-
-const plugins = [
-  plugin
-];
 
 
-console.log(plugins);
 
 
 /**
@@ -59,10 +65,24 @@ class RichTextExample extends React.Component {
    *
    * @type {Object}
    */
+  plugins = [emojis.plugin, ImagesPlugin, CheckList(),  Embeds(), CodeHighlight(), Wave(this.props.api)];
 
   state = {
     value: Value.fromJSON(initialValue),
   }
+
+  /**
+   * On update, update the menu.
+   */
+
+  componentDidMount = () => {
+    this.updateMenu()
+  }
+
+  componentDidUpdate = () => {
+    this.updateMenu()
+  }
+
 
   /**
    * Check if the current selection has a mark with `type` in it.
@@ -115,7 +135,7 @@ class RichTextExample extends React.Component {
   render() {
     return (
       <div>
-        <Session wave={api} />
+        <Session wave={this.props.api} />
         <Toolbar>
           {this.renderMarkButton('bold', 'format_bold')}
           {this.renderMarkButton('italic', 'format_italic')}
@@ -126,6 +146,8 @@ class RichTextExample extends React.Component {
           {this.renderBlockButton('block-quote', 'format_quote')}
           {this.renderBlockButton('numbered-list', 'format_list_numbered')}
           {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
+          <ImagesToolbar editor={this.editor}/>
+          {emojis.renderToolbar(this.editor)}
         </Toolbar>
         <Editor
           spellCheck
@@ -135,11 +157,54 @@ class RichTextExample extends React.Component {
           value={this.state.value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          renderEditor={this.renderEditor}
           renderNode={this.renderNode}
           renderMark={this.renderMark}
-          plugins={plugins}
+          plugins={this.plugins}
         />
       </div>
+    )
+  }
+
+  updateMenu = () => {
+    const menu = this.menu
+    if (!menu) return
+
+    const { value } = this.state
+    const { fragment, selection } = value
+
+    if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
+      menu.removeAttribute('style')
+      return
+    }
+
+    const native = window.getSelection()
+    const range = native.getRangeAt(0)
+    const rect = range.getBoundingClientRect()
+    menu.style.opacity = 1
+    menu.style.top = `${rect.top + window.pageYOffset - menu.offsetHeight}px`
+
+    menu.style.left = `${rect.left +
+      window.pageXOffset -
+      menu.offsetWidth / 2 +
+      rect.width / 2}px`
+  }
+
+  /**
+   * Render the editor.
+   *
+   * @param {Object} props
+   * @param {Function} next
+   * @return {Element}
+   */
+
+  renderEditor = (props, editor, next) => {
+    const children = next()
+    return (
+      <React.Fragment>
+        {children}
+        <HoverMenu innerRef={menu => (this.menu = menu)} editor={editor} />
+      </React.Fragment>
     )
   }
 
