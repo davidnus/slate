@@ -15,7 +15,7 @@ import Emojis from './emojis'
 import HoverMenu from './hovering-menu'
 import Embeds from './embeds'
 import Images from './images'
-import Session from '../../../sdk/src/components/Session'
+import Session from '../../../sdkui/src/components/Session'
 
 
 const emojis = Emojis();
@@ -157,9 +157,9 @@ class RichTextExample extends React.Component {
           value={this.state.value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
-          renderEditor={this.renderEditor}
           renderNode={this.renderNode}
           renderMark={this.renderMark}
+          renderEditor={this.renderEditor}
           plugins={this.plugins}
         />
       </div>

@@ -32,6 +32,9 @@ const config = {
     hot: true,
     host: '0.0.0.0',
   },
+  node: {
+  fs: 'empty'
+},
   module: {
     rules: [
       {
@@ -71,6 +74,7 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(
         IS_PROD ? 'production' : 'development'
       ),
+      'process.env.BUILD_ENV': JSON.stringify('david')
     }),
     new ExtractTextPlugin('[name]-[contenthash].css'),
     new HtmlWebpackPlugin({
